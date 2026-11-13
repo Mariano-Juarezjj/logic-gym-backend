@@ -141,7 +141,17 @@ export const obtenerUsuarios = async (req, res) => {
   try {
     const usuarios = await Usuario.find().select("-contrasenia");
 
-    return res.status(200).json(usuarios);
+    if (!usuarios) {
+      return res.status(404).jon({ mensaje: "usuario no encontrado"});
+    }
+
+    return res.status(200).json({
+      id: usuarios._id,
+      nombreUsuario: usuarios.nombreUsuario,
+      correoUsuario: usuarios.correoUsuario,
+      rolUsuario: usuarios.rolUsuario,
+      bloqueo: usuarios.bloqueo
+    })
   } catch (error) {
     console.error(error);
 
