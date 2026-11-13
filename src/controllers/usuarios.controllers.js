@@ -44,7 +44,7 @@ export const registrarUsuario = async (req, res) => {
 
     await nuevoUsuario.save();
 
-    const token = jwtGeneracion(nuevoUsuario._id, nuevoUsuario.correoUsuario);
+    const token = jwtGeneracion(nuevoUsuario._id, nuevoUsuario.correoUsuario, nuevoUsuario.rolUsuario);
 
     res.cookie('token', token, {
       httpOnly: true,
