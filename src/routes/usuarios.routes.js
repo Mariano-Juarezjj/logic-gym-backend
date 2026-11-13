@@ -9,14 +9,12 @@ import {
 } from "../controllers/usuarios.controllers.js";
 import jwtVerificacion from "../middlewares/jwt.verificacion.js";
 import validarAdmin from "../middlewares/validarAdmin.js";
-import obtenerUsuarios from "../controllers/usuarios.controllers.js";
 
 const router = Router();
 
 router.post("/register", registrarUsuario);
 router.post("/login", loginUsuario);
 
-router.get("/usuarios", jwtVerificacion, obtenerUsuarios);
 router.get("/", jwtVerificacion, validarAdmin, obtenerUsuarios);
 router.get("/:id", jwtVerificacion, validarAdmin, obtenerUsuarioPorId);
 router.put("/:id", jwtVerificacion, validarAdmin, actualizarUsuario);

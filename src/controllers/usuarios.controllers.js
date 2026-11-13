@@ -141,17 +141,7 @@ export const obtenerUsuarios = async (req, res) => {
   try {
     const usuarios = await Usuario.find().select("-contrasenia");
 
-    if (!usuarios) {
-      return res.status(404).jon({ mensaje: "usuario no encontrado"});
-    }
-
-    return res.status(200).json({
-      id: usuarios._id,
-      nombreUsuario: usuarios.nombreUsuario,
-      correoUsuario: usuarios.correoUsuario,
-      rolUsuario: usuarios.rolUsuario,
-      bloqueo: usuarios.bloqueo
-    })
+    return res.status(200).json(usuarios);
   } catch (error) {
     console.error(error);
 
@@ -160,6 +150,27 @@ export const obtenerUsuarios = async (req, res) => {
     });
   }
 };
+
+export const obtenerPerfil = async (req, res) => {
+  try {
+    const usuario = await Usuario.findById(req.usuarioId).select("-contrasenia");
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+    
+    return res.status(200).json({
+      id: usuario._id,
+      nombreUsuario: usuario.nombreUsuario,
+      correoUsuario: usuario.correoUsuario,
+      rolUsuario: usuario.rolUsuario,
+      bloqueo: usuario.bloqueo
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ mensaje: "Error al obtener el perfil" });
+  }
+}
 
 export const obtenerUsuarioPorId = async (req, res) => {
   try {
