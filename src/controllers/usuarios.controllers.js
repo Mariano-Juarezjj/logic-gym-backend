@@ -44,11 +44,17 @@ export const registrarUsuario = async (req, res) => {
 
     await nuevoUsuario.save();
 
-    const token = jwtGeneracion(nuevoUsuario._id, nuevoUsuario.correoUsuario);
+    const token = jwtGeneracion(nuevoUsuario._id, nuevoUsuario.correoUsuario, nuevoUsuario.rolUsuario);
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 3600000
+    })
 
     return res.status(201).json({
       mensaje: "Usuario registrado correctamente",
-      token: token,
       usuario: {
         id: nuevoUsuario._id,
         nombreUsuario: nuevoUsuario.nombreUsuario,
