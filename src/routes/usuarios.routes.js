@@ -15,6 +15,8 @@ const router = Router();
 router.post("/register", registrarUsuario);
 router.post("/login", loginUsuario);
 
+router.get("/perfil", jwtVerificacion, obtenerPerfil);
+
 router.get("/", jwtVerificacion, validarAdmin, obtenerUsuarios);
 router.get("/:id", jwtVerificacion, validarAdmin, obtenerUsuarioPorId);
 router.put("/:id", jwtVerificacion, validarAdmin, actualizarUsuario);
