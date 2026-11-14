@@ -19,3 +19,5 @@ const validarAdmin= async (req, res, next) => {
         return res.status(500).json({ mensaje: "Ocurrió un error al validar el rol de administrador" });
     }
 }
+
+export default validarAdmin;

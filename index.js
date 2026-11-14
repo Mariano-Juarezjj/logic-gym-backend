@@ -8,3 +8,5 @@ server.app.use("/api", router)
 
 //escuche el puerto 
 server.listen()
+
+module.exports = app;

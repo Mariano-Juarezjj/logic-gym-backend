@@ -7,8 +7,9 @@ import {
   actualizarUsuario,
   eliminarUsuario,
 } from "../controllers/usuarios.controllers.js";
-import jwtVerificacion from "../middlewares/jwt.verificacion.js";
+import jwtVerificacion from "../middlewares/token.verificacion.js";
 import validarAdmin from "../middlewares/validarAdmin.js";
+import {obtenerPerfil} from "../controllers/usuarios.controllers.js";
 
 const router = Router();
 
