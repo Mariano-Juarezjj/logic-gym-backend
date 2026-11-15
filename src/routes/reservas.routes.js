@@ -4,7 +4,7 @@ import {
   obtenerReservas,
   eliminarReserva,
 } from "../controllers/reservas.controllers.js";
-import jwtVerificacion from "../middlewares/jwt.verificacion.js";
+import jwtVerificacion from "../middlewares/token.verificacion.js";
 
 const router = Router();
 

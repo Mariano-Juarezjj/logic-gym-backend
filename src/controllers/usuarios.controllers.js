@@ -151,6 +151,27 @@ export const obtenerUsuarios = async (req, res) => {
   }
 };
 
+export const obtenerPerfil = async (req, res) => {
+  try {
+    const usuario = await Usuario.findById(req.usuarioId).select("-contrasenia");
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+    
+    return res.status(200).json({
+      id: usuario._id,
+      nombreUsuario: usuario.nombreUsuario,
+      correoUsuario: usuario.correoUsuario,
+      rolUsuario: usuario.rolUsuario,
+      bloqueo: usuario.bloqueo
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ mensaje: "Error al obtener el perfil" });
+  }
+}
+
 export const obtenerUsuarioPorId = async (req, res) => {
   try {
     const { id } = req.params;
