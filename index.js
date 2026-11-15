@@ -3,10 +3,10 @@ import Server from "./src/server/config.js";
 
 const server = new Server();
 
-//agregar la rutas
+
 server.app.use("/api", router)
 
-//escuche el puerto 
+
 server.listen()
 
-module.exports = app;
+export default server;
