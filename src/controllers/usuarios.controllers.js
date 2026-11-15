@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import Usuario from "../models/usuario.model.js";
+import jwtGeneracion from "../middlewares/jwt.generacion.js";
 
 export const registrarUsuario = async (req, res) => {
   try {
@@ -42,6 +43,15 @@ export const registrarUsuario = async (req, res) => {
     });
 
     await nuevoUsuario.save();
+
+    const token = jwtGeneracion(nuevoUsuario._id, nuevoUsuario.correoUsuario, nuevoUsuario.rolUsuario);
+
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 3600000
+    })
 
     return res.status(201).json({
       mensaje: "Usuario registrado correctamente",
@@ -105,8 +115,11 @@ export const loginUsuario = async (req, res) => {
       });
     }
 
+    const token = jwtGeneracion(usuario._id, usuario.correoUsuario);
+
     return res.status(200).json({
       mensaje: "Login correcto",
+      token: token,
       usuario: {
         id: usuario._id,
         nombreUsuario: usuario.nombreUsuario,
@@ -137,6 +150,27 @@ export const obtenerUsuarios = async (req, res) => {
     });
   }
 };
+
+export const obtenerPerfil = async (req, res) => {
+  try {
+    const usuario = await Usuario.findById(req.usuarioId).select("-contrasenia");
+
+    if (!usuario) {
+      return res.status(404).json({ mensaje: "Usuario no encontrado" });
+    }
+    
+    return res.status(200).json({
+      id: usuario._id,
+      nombreUsuario: usuario.nombreUsuario,
+      correoUsuario: usuario.correoUsuario,
+      rolUsuario: usuario.rolUsuario,
+      bloqueo: usuario.bloqueo
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ mensaje: "Error al obtener el perfil" });
+  }
+}
 
 export const obtenerUsuarioPorId = async (req, res) => {
   try {

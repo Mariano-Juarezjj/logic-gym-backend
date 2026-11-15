@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from 'cookie-parser';
 import morgan from "morgan";
 import cors from "cors";
 import dns from "node:dns";
@@ -29,6 +30,7 @@ export default class Server {
 
         // permite interpretar los datos que lleguen en la solicitud en formato json
         this.app.use(express.json());
+        this.app.use(cookieParser());
 
         // nos ofrece datos extra en la terminal
         this.app.use(morgan("dev"));
