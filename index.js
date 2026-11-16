@@ -6,7 +6,7 @@ const server = new Server();
 
 server.app.use("/api", router);
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV !== "production") {
     server.listen();
 }
 
