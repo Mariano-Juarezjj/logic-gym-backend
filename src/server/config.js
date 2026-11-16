@@ -26,7 +26,10 @@ export default class Server {
 
     middlewares() {
         // permite conexiones remotas cuando lo tengamos en produccion
-        this.app.use(cors());
+        this.app.use(cors({
+            origin: "https://logic-gym-frontend-ten.vercel.app/",
+            credentials: true
+        }));
 
         // permite interpretar los datos que lleguen en la solicitud en formato json
         this.app.use(express.json());
