@@ -4,9 +4,11 @@ import Server from "./src/server/config.js";
 const server = new Server();
 
 
-server.app.use("/api", router)
+server.app.use("/api", router);
+
+if (process.env.NODE_ENV === "production") {
+    server.listen();
+}
 
 
-server.listen()
-
-export default server;
+export default server.app;
