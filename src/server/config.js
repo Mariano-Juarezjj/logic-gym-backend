@@ -26,6 +26,9 @@ export default class Server {
 
     middlewares() {
         this.app.set("trust proxy", 1);
+        const allowed = [
+            "https://logic-gym-frontend-ten.vercel.app",
+        ];
         // permite conexiones remotas cuando lo tengamos en produccion
         this.app.use(cors({
             origin: (origin, cb) => {
