@@ -28,14 +28,19 @@ export default class Server {
         this.app.set("trust proxy", 1);
         // permite conexiones remotas cuando lo tengamos en produccion
         this.app.use(cors({
-            origin: "https://logic-gym-frontend-ten.vercel.app",
+            origin: (origin, cb) => {
+                if (
+                    !origin ||
+                    allowed.includes(origin) ||
+                    /^https:\/\/logic-gym-frontend-.*\.vercel\.app$/.test(origin)
+                ) {
+                    cb(null, true);
+                } else {
+                    cb(new Error("No permitido por CORS"));
+                }
+            },
             credentials: true
         }));
-
-        this.app.options("*", cors({
-            origin: "https://logic-gym-frontend-ten.vercel.app",
-            credentials: true
-        }))
 
         // permite interpretar los datos que lleguen en la solicitud en formato json
         this.app.use(express.json());
